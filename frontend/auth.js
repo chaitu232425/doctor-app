@@ -93,6 +93,7 @@ async function login(){
     }
 
   } catch(err){
-    alert("Server error");
-  }
+  console.log(err);
+  alert("Error: check console (F12)");
+}
 }
