@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Signup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="applySavedTheme()">
+
+<header>
+  <div class="header-left">
+    <img src="vitap-logo.png" class="header-logo">
+    <div>
+      <h2>VIT-AP University</h2>
+      <span>Doctor Appointment System</span>
+    </div>
+  </div>
+  <button onclick="toggleDarkMode()" class="dark-toggle">🌙</button>
+</header>
+
+<section class="home">
+  <div class="home-card">
+    <h1>Signup</h1>
+
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
+
+    <select id="role">
+        <option value="admin">Admin</option>
+        <option value="doctor">Doctor</option>
+        <option value="patient">Patient</option>
+    </select>
+
+    <button onclick="signup()" class="primary-btn">Signup</button>
+
+    <p style="margin-top:15px;">
+      Already have account? <a href="index.html">Login</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <img src="vitap-logo.png">
+  <p>© 2026 VIT-AP University</p>
+</footer>
+
+<script src="script.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>

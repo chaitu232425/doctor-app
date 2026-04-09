@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VIT-AP Doctor Appointment System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<!-- Splash Screen -->
+<div id="splash">
+  <img src="vitap-logo.png" class="splash-logo">
+</div>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <img src="vitap-logo.png" class="header-logo">
+    <div>
+      <h2>VIT-AP University</h2>
+      <span>Doctor Appointment System</span>
+    </div>
+  </div>
+  <button onclick="toggleDarkMode()" class="dark-toggle">🌙</button>
+</header>
+
+<!-- LOGIN SECTION -->
+<section class="home">
+  <div class="home-card">
+    <h1>Login</h1>
+
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
+
+    <button onclick="login()" class="primary-btn">Login</button>
+
+    <p style="margin-top:15px;">
+      New user? <a href="signup.html">Signup</a>
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <img src="vitap-logo.png">
+  <p>© 2026 VIT-AP University | Amaravati, Andhra Pradesh</p>
+</footer>
+
+<!-- Scripts -->
+<script src="script.js"></script>
+<script src="auth.js"></script>
+
+<script>
+window.onload = function(){
+  setTimeout(()=>{
+    document.getElementById("splash").style.display="none";
+  },2000);
+  applySavedTheme();
+}
+</script>
+
+</body>
+</html>

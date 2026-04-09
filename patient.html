@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Patient Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="applySavedTheme()">
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+if(!user || user.role !== "patient"){
+  window.location.href = "index.html";
+}
+</script>
+
+<header>
+  <div class="header-left">
+    <img src="vitap-logo.png" class="header-logo">
+    <div>
+      <h2>Patient Panel</h2>
+      <span>VIT-AP University</span>
+    </div>
+  </div>
+  <div>
+    <button onclick="toggleDarkMode()" class="dark-toggle">🌙</button>
+    <a href="index.html" class="home-btn">Logout</a>
+  </div>
+</header>
+
+<section class="container">
+  <div class="card full">
+    <h2>Available Doctors</h2>
+    <div id="patientDoctorList" class="grid-layout"></div>
+  </div>
+  <div class="card full">
+    <h2>My Appointments</h2>
+  <div id="myAppointments"></div>
+</div>
+</section>
+
+<footer>
+  <img src="vitap-logo.png">
+  <p>© 2026 VIT-AP University</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
