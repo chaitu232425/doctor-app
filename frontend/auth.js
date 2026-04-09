@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://doctor-backend-wlb3.onrender.com";
 
 // 🔍 EMAIL VALIDATION
 function isValidEmail(email){
