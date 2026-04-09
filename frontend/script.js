@@ -1,5 +1,3 @@
-const BASE_URL = "https://doctor-backend-wlb3.onrender.com";
-
 // 🌙 DARK MODE
 function toggleDarkMode(){
   document.body.classList.toggle("dark-mode");
@@ -16,7 +14,10 @@ function applySavedTheme(){
 // 🔐 LOGOUT
 function logout(){
   localStorage.removeItem("user");
+
+  // ✅ CLEAR INPUT FIELDS (IMPORTANT FIX)
   document.querySelectorAll("input").forEach(i => i.value = "");
+
   window.location.href = "index.html";
 }
 
@@ -43,7 +44,7 @@ if(window.location.pathname.includes("admin")){
     const hospital = document.getElementById("hospital").value;
     const specialization = document.getElementById("specialization").value;
 
-    const res = await fetch(BASE_URL + "/add-doctor", {
+    const res = await fetch("https://doctor-backend-wlb3.onrender.com/add-doctor", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -64,7 +65,7 @@ if(window.location.pathname.includes("admin")){
   });
 
   async function loadDoctors(){
-    const res = await fetch(BASE_URL + "/get-doctors");
+    const res = await fetch("https://doctor-backend-wlb3.onrender.com/get-doctors");
     const doctors = await res.json();
 
     const list = document.getElementById("doctorList");
@@ -90,7 +91,7 @@ if(window.location.pathname.includes("admin")){
   window.deleteDoctor = async function(name,hospital,specialization){
     if(!confirm("Delete doctor?")) return;
 
-    await fetch(BASE_URL + "/delete-doctor", {
+    await fetch("https://doctor-backend-wlb3.onrender.com/delete-doctor", {
       method:"DELETE",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -116,7 +117,7 @@ if(window.location.pathname.includes("doctor")){
   }
 
   async function loadAppointments(){
-    const res = await fetch(BASE_URL + "/doctor-appointments", {
+    const res = await fetch("https://doctor-backend-wlb3.onrender.com/doctor-appointments", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({doctorName:user.name})
@@ -132,6 +133,7 @@ if(window.location.pathname.includes("doctor")){
       let status = a.status || "PENDING";
       let buttons = "";
 
+      // 🟡 PENDING
       if(status === "PENDING"){
         buttons = `
           <button onclick="accept('${a.patient}')">Accept</button>
@@ -139,6 +141,7 @@ if(window.location.pathname.includes("doctor")){
         `;
       }
 
+      // 🟢 ACCEPTED → show COMPLETE button
       if(status === "ACCEPTED"){
         buttons = `
           <p style="color:green;">Accepted (${a.time})</p>
@@ -146,10 +149,12 @@ if(window.location.pathname.includes("doctor")){
         `;
       }
 
+      // 🔴 REJECTED
       if(status === "REJECTED"){
         buttons = `<p style="color:red;">Rejected</p>`;
       }
 
+      // 🔵 COMPLETED
       if(status === "COMPLETED"){
         buttons = `
           <p style="color:blue;">
@@ -171,9 +176,10 @@ if(window.location.pathname.includes("doctor")){
 
   window.accept = async function(patient){
     const time = prompt("Enter time (9AM - 5PM):");
+
     if(!time) return;
 
-    await fetch(BASE_URL + "/accept", {
+    await fetch("https://doctor-backend-wlb3.onrender.com/accept", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -187,7 +193,7 @@ if(window.location.pathname.includes("doctor")){
   }
 
   window.reject = async function(patient){
-    await fetch(BASE_URL + "/reject", {
+    await fetch("https://doctor-backend-wlb3.onrender.com/reject", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -199,11 +205,12 @@ if(window.location.pathname.includes("doctor")){
     loadAppointments();
   }
 
+  // 🆕 COMPLETE FUNCTION
   window.complete = async function(patient){
 
     const now = new Date().toLocaleString();
 
-    await fetch(BASE_URL + "/complete", {
+    await fetch("https://doctor-backend-wlb3.onrender.com/complete", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -219,7 +226,6 @@ if(window.location.pathname.includes("doctor")){
 
   loadAppointments();
 }
-
 /* ================= PATIENT ================= */
 
 if(window.location.pathname.includes("patient")){
@@ -231,7 +237,7 @@ if(window.location.pathname.includes("patient")){
   }
 
   async function loadDoctors(){
-    const res = await fetch(BASE_URL + "/get-doctors");
+    const res = await fetch("https://doctor-backend-wlb3.onrender.com/get-doctors");
     const doctors = await res.json();
 
     const list = document.getElementById("patientDoctorList");
@@ -250,7 +256,7 @@ if(window.location.pathname.includes("patient")){
   }
 
   window.bookDoctor = async function(doctor){
-    await fetch(BASE_URL + "/book", {
+    await fetch("https://doctor-backend-wlb3.onrender.com/book", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -264,7 +270,7 @@ if(window.location.pathname.includes("patient")){
   }
 
   async function loadMyAppointments(){
-    const res = await fetch(BASE_URL + "/my-appointments", {
+    const res = await fetch("https://doctor-backend-wlb3.onrender.com/my-appointments", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({patient:user.name})
