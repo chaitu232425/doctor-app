@@ -1,11 +1,10 @@
-const BASE_URL = "https://doctor-backend-wlb3.onrender.com";
 
 async function waitForBackend(){
   const loader = document.getElementById("loader");
 
   while(true){
     try{
-      const res = await fetch(BASE_URL + "/ping");
+      const res = await fetch("https://doctor-backend-wlb3.onrender.com" + "/ping");
 
       if(res.ok){
         loader.style.display = "none";
