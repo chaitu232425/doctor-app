@@ -1,3 +1,27 @@
+const BASE_URL = "https://doctor-backend-wlb3.onrender.com";
+
+async function waitForBackend(){
+  const loader = document.getElementById("loader");
+
+  while(true){
+    try{
+      const res = await fetch(BASE_URL + "/ping");
+
+      if(res.ok){
+        loader.style.display = "none";
+        break;
+      }
+
+    } catch(err){
+      console.log("Waiting for backend...");
+    }
+
+    await new Promise(r => setTimeout(r, 2000));
+  }
+}
+
+waitForBackend();
+
 // 🌙 DARK MODE
 function toggleDarkMode(){
   document.body.classList.toggle("dark-mode");
