@@ -1,25 +1,35 @@
 
+const BASE_URL = "https://doctor-backend-wlb3.onrender.com";
+
 async function waitForBackend(){
   const loader = document.getElementById("loader");
 
-  while(true){
+  let attempts = 0;
+  const maxAttempts = 10;
+
+  while(attempts < maxAttempts){
     try{
-      const res = await fetch("https://doctor-backend-wlb3.onrender.com" + "/ping");
+      const res = await fetch(BASE_URL + "/ping");
 
       if(res.ok){
-        loader.style.display = "none";
-        break;
+        if(loader) loader.style.display = "none";
+        return true;
       }
 
     } catch(err){
       console.log("Waiting for backend...");
     }
 
+    attempts++;
     await new Promise(r => setTimeout(r, 2000));
   }
-}
 
-waitForBackend();
+  if(loader){
+    loader.innerHTML = "⚠ Server is slow. Please refresh.";
+  }
+
+  return false;
+}
 
 // 🌙 DARK MODE
 function toggleDarkMode(){
@@ -334,3 +344,7 @@ if(window.location.pathname.includes("patient")){
   loadDoctors();
   loadMyAppointments();
 }
+
+window.onload = async function(){
+  await waitForBackend();
+};

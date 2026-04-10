@@ -97,11 +97,13 @@ async function login(){
     return;
   }
 
-  // ✅ ADD THIS HERE (START)
-  const btn = document.getElementById("loginBtn");;
-  btn.innerText = "Logging in...";
-  btn.disabled = true;
-  // ✅ ADD THIS HERE (END)
+  // ✅ wait for backend first
+  const ready = await waitForBackend();
+
+  if(!ready){
+    alert("Server not ready. Try again.");
+    return;
+  }
 
   try{
     const res = await safeFetch(BASE_URL + "/login", {
@@ -110,31 +112,21 @@ async function login(){
       body: JSON.stringify({email,password})
     });
 
-    if(res.ok){
-      const user = await res.json();
-      localStorage.setItem("user", JSON.stringify(user));
+    const user = await res.json();
 
-      if(user.role === "admin"){
-        window.location.href = "admin.html";
-      }
-      else if(user.role === "doctor"){
-        window.location.href = "doctor.html";
-      }
-      else{
-        window.location.href = "patient.html";
-      }
+    localStorage.setItem("user", JSON.stringify(user));
 
-    } else {
-      alert("Invalid login");
+    if(user.role === "admin"){
+      window.location.href = "admin.html";
+    }
+    else if(user.role === "doctor"){
+      window.location.href = "doctor.html";
+    }
+    else{
+      window.location.href = "patient.html";
     }
 
   } catch(err){
-    console.log(err);
-    alert("Server is waking up... please try again");
-
-  } finally {
-    // ✅ ADD THIS (VERY IMPORTANT)
-    btn.innerText = "Login";
-    btn.disabled = false;
+    alert("Server error");
   }
 }
