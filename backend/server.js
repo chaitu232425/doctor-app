@@ -2,8 +2,19 @@ const express = require("express");
 const neo4j = require("neo4j-driver");
 const cors = require("cors");
 
+app.use(cors({
+  origin: "*",
+  methods: ["GET","POST","PUT","DELETE"],
+}));
+
 const app = express();
-app.use(cors());
+
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
 // 🔗 Neo4j Connection
