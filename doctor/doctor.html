@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Doctor Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="applySavedTheme()">
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+if(!user || user.role !== "doctor"){
+  window.location.href = "index.html";
+}
+</script>
+
+<header>
+  <div class="header-left">
+    <img src="vitap-logo.png" class="header-logo">
+    <div>
+      <h2>Doctor Panel</h2>
+      <span>VIT-AP University</span>
+    </div>
+  </div>
+  <div>
+    <button onclick="toggleDarkMode()" class="dark-toggle">🌙</button>
+    <a href="index.html" class="home-btn">Logout</a>
+  </div>
+</header>
+
+<section class="container">
+  <div class="card full">
+    <h2>My Profile</h2>
+    <p><strong>Name:</strong> Dr. {user.name}</p>
+    <p><strong>Email:</strong> {user.email}</p>
+    <p><strong>Specialization:</strong> {user.specialization || "N/A"}</p>
+  </div>
+
+  <div class="card full">
+    <h2>Booked Appointments</h2>
+    <div id="appointmentList"></div>
+  </div>
+</section>
+
+<footer>
+  <img src="vitap-logo.png">
+  <p>© 2026 VIT-AP University</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

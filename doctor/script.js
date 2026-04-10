@@ -1,37 +1,3 @@
-
-const BASE_URL = "https://doctor-backend-wlb3.onrender.com";
-
-async function waitForBackend(){
-  const loader = document.getElementById("loader");
-
-  let attempts = 0;
-  const maxAttempts = 10;
-
-  while(attempts < maxAttempts){
-    try{
-      const res = await fetch(BASE_URL + "/ping");
-
-      if(res.status === 200){   // ✅ FIX HERE
-        console.log("Backend ready");
-        if(loader) loader.style.display = "none";
-        return true;
-      }
-
-    } catch(err){
-      console.log("Waiting for backend...");
-    }
-
-    attempts++;
-    await new Promise(r => setTimeout(r, 2000));
-  }
-
-  if(loader){
-    loader.innerHTML = "⚠ Server is slow. Click login again.";
-  }
-
-  return false;
-}
-
 // 🌙 DARK MODE
 function toggleDarkMode(){
   document.body.classList.toggle("dark-mode");
@@ -78,7 +44,7 @@ if(window.location.pathname.includes("admin")){
     const hospital = document.getElementById("hospital").value;
     const specialization = document.getElementById("specialization").value;
 
-    const res = await fetch("https://doctor-backend-wlb3.onrender.com/add-doctor", {
+    const res = await fetch("http://localhost:5000/add-doctor", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -99,7 +65,7 @@ if(window.location.pathname.includes("admin")){
   });
 
   async function loadDoctors(){
-    const res = await fetch("https://doctor-backend-wlb3.onrender.com/get-doctors");
+    const res = await fetch("http://localhost:5000/get-doctors");
     const doctors = await res.json();
 
     const list = document.getElementById("doctorList");
@@ -125,7 +91,7 @@ if(window.location.pathname.includes("admin")){
   window.deleteDoctor = async function(name,hospital,specialization){
     if(!confirm("Delete doctor?")) return;
 
-    await fetch("https://doctor-backend-wlb3.onrender.com/delete-doctor", {
+    await fetch("http://localhost:5000/delete-doctor", {
       method:"DELETE",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -151,7 +117,7 @@ if(window.location.pathname.includes("doctor")){
   }
 
   async function loadAppointments(){
-    const res = await fetch("https://doctor-backend-wlb3.onrender.com/doctor-appointments", {
+    const res = await fetch("http://localhost:5000/doctor-appointments", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({doctorName:user.name})
@@ -213,7 +179,7 @@ if(window.location.pathname.includes("doctor")){
 
     if(!time) return;
 
-    await fetch("https://doctor-backend-wlb3.onrender.com/accept", {
+    await fetch("http://localhost:5000/accept", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -227,7 +193,7 @@ if(window.location.pathname.includes("doctor")){
   }
 
   window.reject = async function(patient){
-    await fetch("https://doctor-backend-wlb3.onrender.com/reject", {
+    await fetch("http://localhost:5000/reject", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -244,7 +210,7 @@ if(window.location.pathname.includes("doctor")){
 
     const now = new Date().toLocaleString();
 
-    await fetch("https://doctor-backend-wlb3.onrender.com/complete", {
+    await fetch("http://localhost:5000/complete", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -271,7 +237,7 @@ if(window.location.pathname.includes("patient")){
   }
 
   async function loadDoctors(){
-    const res = await fetch("https://doctor-backend-wlb3.onrender.com/get-doctors");
+    const res = await fetch("http://localhost:5000/get-doctors");
     const doctors = await res.json();
 
     const list = document.getElementById("patientDoctorList");
@@ -290,7 +256,7 @@ if(window.location.pathname.includes("patient")){
   }
 
   window.bookDoctor = async function(doctor){
-    await fetch("https://doctor-backend-wlb3.onrender.com/book", {
+    await fetch("http://localhost:5000/book", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -304,7 +270,7 @@ if(window.location.pathname.includes("patient")){
   }
 
   async function loadMyAppointments(){
-    const res = await fetch("https://doctor-backend-wlb3.onrender.com/my-appointments", {
+    const res = await fetch("http://localhost:5000/my-appointments", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({patient:user.name})
@@ -338,14 +304,10 @@ if(window.location.pathname.includes("patient")){
           Doctor: ${a.doctor}<br>
           Status: ${text}
         </div>
-      `;vs
+      `;
     });
   }
 
   loadDoctors();
   loadMyAppointments();
 }
-
-window.onload = async function(){
-  await waitForBackend();
-};
