@@ -43,6 +43,11 @@ async function signup(){
     return;
   }
 
+  // ✅ ADD THIS (BUTTON LOADING START)
+  const btn = document.getElementById("signupBtn");
+  btn.innerText = "Signing up...";
+  btn.disabled = true;
+
   try{
     const res = await safeFetch(BASE_URL + "/signup", {
       method:"POST",
@@ -57,7 +62,6 @@ async function signup(){
 
       localStorage.setItem("user", JSON.stringify({name,email,role}));
 
-      // ✅ CORRECT REDIRECT
       if(role === "admin"){
         window.location.href = "admin.html";
       }
@@ -73,7 +77,13 @@ async function signup(){
     }
 
   } catch(err){
-    alert("Server error");
+    console.log(err);
+    alert("Server is waking up... please try again");
+
+  } finally {
+    // ✅ ADD THIS (BUTTON RESET)
+    btn.innerText = "Signup";
+    btn.disabled = false;
   }
 }
 
