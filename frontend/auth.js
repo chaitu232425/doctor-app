@@ -91,11 +91,16 @@ async function signup(){
 async function login(){
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
+  const btn = document.getElementById("loginBtn");
 
   if(!email || !password){
     alert("Enter email & password");
     return;
   }
+
+  // ✅ START LOADING
+  btn.innerText = "Logging in...";
+  btn.disabled = true;
 
   try{
     const res = await fetch(BASE_URL + "/login", {
@@ -106,16 +111,18 @@ async function login(){
 
     const data = await res.json();
 
-    // ✅ IMPORTANT CHECK
     if(!res.ok){
       alert(data.message || "Login failed");
+
+      // ✅ RESET BUTTON
+      btn.innerText = "Login";
+      btn.disabled = false;
       return;
     }
 
-    // ✅ Store only valid user
     localStorage.setItem("user", JSON.stringify(data));
 
-    // ✅ Redirect based on role
+    // ✅ REDIRECT
     if(data.role === "admin"){
       window.location.href = "admin.html";
     }
@@ -129,5 +136,9 @@ async function login(){
   } catch(err){
     console.log(err);
     alert("Server error. Try again.");
+
+    // ✅ RESET BUTTON
+    btn.innerText = "Login";
+    btn.disabled = false;
   }
 }
