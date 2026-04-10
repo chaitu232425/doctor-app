@@ -346,6 +346,6 @@ if(window.location.pathname.includes("patient")){
   loadMyAppointments();
 }
 
-window.onload = async function(){
-  await waitForBackend();
+window.onload = function(){
+  waitForBackend(); // ❌ don't use await
 };
