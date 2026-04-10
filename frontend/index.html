@@ -6,31 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div id="loader" style="
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:black;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:20px;
-  z-index:9999;
-">
-  🚀 Starting server... (first time takes 20–30 seconds)
-</div>
 
-<!-- Splash Screen -->
 <div id="splash">
   <img src="vitap-logo.png" class="splash-logo">
 </div>
 
-<!-- Header -->
 <header>
   <div class="header-left">
     <img src="vitap-logo.png" class="header-logo">
@@ -42,32 +23,22 @@
   <button onclick="toggleDarkMode()" class="dark-toggle">🌙</button>
 </header>
 
-<!-- LOGIN SECTION -->
 <section class="home">
   <div class="home-card">
-    <h1>Login</h1>
-
-    <input type="email" id="email" placeholder="Enter Email">
-    <input type="password" id="password" placeholder="Enter Password">
-
-    <button id="loginBtn" onclick="login()" class="primary-btn">Login</button>
-
-    <p style="margin-top:15px;">
-      New user? <a href="signup.html">Signup</a>
-    </p>
+    <h1>Select Role</h1>
+    <div class="role-buttons">
+      <a href="doctor.html" class="primary-btn">Doctor</a>
+      <a href="patient.html" class="secondary-btn">Patient</a>
+    </div>
   </div>
 </section>
 
-<!-- Footer -->
 <footer>
   <img src="vitap-logo.png">
   <p>© 2026 VIT-AP University | Amaravati, Andhra Pradesh</p>
 </footer>
 
-<!-- Scripts -->
 <script src="script.js"></script>
-<script src="auth.js"></script>
-
 <script>
 window.onload = function(){
   setTimeout(()=>{
