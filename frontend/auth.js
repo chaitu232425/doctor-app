@@ -6,6 +6,26 @@ function isValidEmail(email){
   return regex.test(email);
 }
 
+async function safeFetch(url, options){
+  for(let i = 0; i < 3; i++){
+    try{
+      const res = await fetch(url, options);
+
+      if(res.ok){
+        return res;
+      }
+
+    } catch(err){
+      console.log("Retrying...");
+    }
+
+    // wait 2 seconds
+    await new Promise(r => setTimeout(r, 2000));
+  }
+
+  throw new Error("Server not responding");
+}
+
 // ================= SIGNUP =================
 async function signup(){
   const name = document.getElementById("name").value.trim();
@@ -24,7 +44,7 @@ async function signup(){
   }
 
   try{
-    const res = await fetch(BASE_URL + "/signup", {
+    const res = await safeFetch(BASE_URL + "/signup", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({name,email,password,role})
@@ -67,8 +87,14 @@ async function login(){
     return;
   }
 
+  // ✅ ADD THIS HERE (START)
+  const btn = document.getElementById("loginBtn");;
+  btn.innerText = "Logging in...";
+  btn.disabled = true;
+  // ✅ ADD THIS HERE (END)
+
   try{
-    const res = await fetch(BASE_URL + "/login", {
+    const res = await safeFetch(BASE_URL + "/login", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({email,password})
@@ -93,7 +119,12 @@ async function login(){
     }
 
   } catch(err){
-  console.log(err);
-  alert("Error: check console (F12)");
-}
+    console.log(err);
+    alert("Server is waking up... please try again");
+
+  } finally {
+    // ✅ ADD THIS (VERY IMPORTANT)
+    btn.innerText = "Login";
+    btn.disabled = false;
+  }
 }
