@@ -8,22 +8,6 @@
 </head>
 
 <body>
-  <div id="loader" style="
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:black;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:20px;
-  z-index:9999;
-">
-  🚀 Starting server... (first time takes 20–30 seconds)
-</div>
 
 <!-- Splash Screen -->
 <div id="splash">
@@ -69,18 +53,17 @@
 <script src="auth.js"></script>
 
 <script>
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
 
-  // Wait for backend first
-  await waitForBackend();
+  // Apply theme
+  applySavedTheme();
 
-  // Hide splash AFTER backend ready
+  // Hide splash after 2 seconds
   setTimeout(() => {
     const splash = document.getElementById("splash");
     if(splash) splash.style.display = "none";
-  }, 1000);
+  }, 2000);
 
-  applySavedTheme();
 });
 </script>
 
