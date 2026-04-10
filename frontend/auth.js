@@ -97,29 +97,29 @@ async function login(){
     return;
   }
 
-  // ✅ wait for backend first
-  const ready = await waitForBackend();
-
-  if(!ready){
-    alert("Server not ready. Try again.");
-    return;
-  }
-
   try{
-    const res = await safeFetch(BASE_URL + "/login", {
+    const res = await fetch(BASE_URL + "/login", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({email,password})
     });
 
-    const user = await res.json();
+    const data = await res.json();
 
-    localStorage.setItem("user", JSON.stringify(user));
+    // ✅ IMPORTANT CHECK
+    if(!res.ok){
+      alert(data.message || "Login failed");
+      return;
+    }
 
-    if(user.role === "admin"){
+    // ✅ Store only valid user
+    localStorage.setItem("user", JSON.stringify(data));
+
+    // ✅ Redirect based on role
+    if(data.role === "admin"){
       window.location.href = "admin.html";
     }
-    else if(user.role === "doctor"){
+    else if(data.role === "doctor"){
       window.location.href = "doctor.html";
     }
     else{
@@ -127,6 +127,7 @@ async function login(){
     }
 
   } catch(err){
-    alert("Server error");
+    console.log(err);
+    alert("Server error. Try again.");
   }
 }
