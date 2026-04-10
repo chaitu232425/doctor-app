@@ -11,7 +11,8 @@ async function waitForBackend(){
     try{
       const res = await fetch(BASE_URL + "/ping");
 
-      if(res.ok){
+      if(res.status === 200){   // ✅ FIX HERE
+        console.log("Backend ready");
         if(loader) loader.style.display = "none";
         return true;
       }
@@ -25,7 +26,7 @@ async function waitForBackend(){
   }
 
   if(loader){
-    loader.innerHTML = "⚠ Server is slow. Please refresh.";
+    loader.innerHTML = "⚠ Server is slow. Click login again.";
   }
 
   return false;
